@@ -1,11 +1,12 @@
-<style>
-p {
+p,
+.my-class,
+#my-id {
     font-family: sans-serif;
     color: red;
 }
 
 li {
-    background-color: greenyellow;
+    background-color: aliceblue;
     border: 1px solid black;
     margin-bottom: 5px;
 }
