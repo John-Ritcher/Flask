@@ -38,6 +38,12 @@ h1 {
     font-size: 60px;
     text-align: center;
 }
+img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+}
+
 
 p, li {
     font-size: 18px;
@@ -69,4 +75,8 @@ p, li {
 
 h1#heading {
     color: darkred;
+}
+
+.heightlight {
+    font-size: 30px;
 }
