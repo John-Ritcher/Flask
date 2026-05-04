@@ -80,3 +80,11 @@ h1#heading {
 .heightlight {
     font-size: 30px;
 }
+
+a:link {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
