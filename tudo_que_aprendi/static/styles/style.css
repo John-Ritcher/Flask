@@ -50,6 +50,19 @@ p, li {
     line-height: 1.5;
     letter-spacing: 1px;
 }
+
+li[class=a] {
+    font-size: 30px;
+    background-color: yellow;
+}
+
+li[class~=a] {
+    color: red;
+}
+
+li[class|=ac] {
+    color: yellow;
+}
 .notebook{
     font-size: 16px;
     line-height: 1.5;
