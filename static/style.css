@@ -1,4 +1,4 @@
-h3 {
+h3.contents {
     text-align: center;
 }
 
@@ -41,6 +41,10 @@ p {
     background: white;
 }
 
+li::marker {
+    content: ' ';
+}
+
 .mycontent {
     margin: auto;
     border: 1px solid darkslategray;
@@ -50,4 +54,16 @@ p {
 
 #content {
     margin: 10px 10px 20px 0;
+}
+
+#pred {
+    color: red;
+}
+
+#marine {
+    color: darkblue;
+}
+
+#alien {
+    color: green;
 }
