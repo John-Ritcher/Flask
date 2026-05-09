@@ -5,6 +5,6 @@ app = Flask(__name__)
 def root():
     return render_template('index.html')
 
-@app.route('/actor')
-def actor():
-    return render_template('actor.html')
+@app.route('/theories')
+def theory():
+    return render_template('ex_avp.html')
