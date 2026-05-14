@@ -22,8 +22,9 @@ html {
 
 body {
     margin: auto;
-    padding: 1.25em 1.5em 1.5em 1.5em;
+  //  padding: 1.25em 1.5em 1.5em 1.5em;
     background: whitesmoke;
+    //max-width: 1000px;
 }
 
 p, li {
@@ -44,6 +45,15 @@ p, li {
     max-width: 500px;
     max-height: 400px;
 }
+
+.explore-navigation {
+    display: flex;
+    flex-direction: column;
+    left: 0;
+    bottom: 0;
+    position: absolute;
+}
+
 a:link {
     text-decoration: none;
 }
@@ -64,6 +74,7 @@ p {
 
 .box {
     margin-top: -1px;
+    margin-left: 10em;
     border: 1px solid #a7d7f9;
     border-right-width: 0px;
     padding: 30px;

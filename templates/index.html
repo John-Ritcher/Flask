@@ -9,9 +9,19 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <script>let y;
+        if (Math.random() > 0.5) {
+        y = 5;
+    }
+    console.log(y);
+    </script>
+    <script>const docTypeObj = document.doctype;
+            console.log(`docTypeObj.name: ${docTypeObj.name}`);
+    </script>
 </head>
 <body>
     <div class="box" role="main">
+        <table id="table">Toma</table>
         <h1 class="line">Introduction</h1>
         <hr>
         <p>First, this is a collection of information of the AVP Franchise, in this website I'll explain the theories and stories of AVP
@@ -20,30 +30,35 @@
         <div id="content" class="mycontent" role="navigation">
             <h3 class="contents"><strong>Contents</strong></h3>
             <ol class="cont_m">
-                <li><span>1</span>
-                    <span>Stories</span>
+                <li><a href="#m-story"><span>1</span>
+                    <span>Stories</span></a>
                     <ul>
                         <li>
-                            <span>1.1</span>
-                            <span>Predator</span></li>
-                        <li><span>1.2</span>
-                            <span>Xenomorph</span></li>
-                        <li><span>1.3</span>
-                            <span>Alien vs Predator</span></li>
+                            <a href="#predator">
+                                <span>1.1</span>
+                                <span>Predator</span>
+                            </a>
+                        </li>
+                        <li><a href="#xenomorph"><span>1.2</span>
+                            <span>Xenomorph</span></a>
+                        </li>
+                        <li><a href="#avp">
+                            <span>1.3</span>
+                            <span>Alien vs Predator</span></a>
+                        </li>
                         <ul>
-                            <li><span>1.3.1</span>
-                                <span>The Franchise</span>
+                            <li><a href="#man_and_earth">
+                                <span>1.3.1</span>
+                                <span>Humans and Earth</span></a>
                             </li>
-                            <li><span>1.3.2</span>
-                            <span>Humans and Earth</span></li>
                         </ul>
                     </ul>
                 </li>
             </ol>
         </div>
-        <h2>Stories</h2>
+        <h2 id="m-story">Stories</h2>
         <hr>
-        <h3>Predator</h3>
+        <h3 id="predator">Predator</h3>
         <div>
             <p id="pred">Origin</p>
             <p>The Predator design was originally made by <a href="https://avp.fandom.com/wiki/Stan_Winston">Stanley Winston</a>,
@@ -65,7 +80,7 @@
             </p>
             <p>Naturally it had made success and the Predator now has a place in the horror films, giving birth to comics, games and more sequels.</p>
         </div>
-        <h3>Xenomorph</h3>
+        <h3 id="xenomorph">Xenomorph</h3>
         <hr>
         <div>
             <p id="alien">Origin</p>
@@ -93,7 +108,7 @@
             </p>
             <p>Now there are alien comics, games and sequels, also happened a cross-over with the Predator universe and spawned a whole another franchise</p>
         </div>
-        <h3>Alien vs Predator</h3>
+        <h3 id="avp">Alien vs Predator</h3>
         <hr>
         <div>
             <p id="marine">Origin</p>
@@ -107,7 +122,7 @@
                 we will get another film out of it.
             </p>
         </div>
-        <h3>Humans and Earth</h3>
+        <h3 id="man_and_earth">Humans and Earth</h3>
         <hr>
         <div>
             <p class="m_maincolor">Depiction of Man and Society in the AVP universe</p>
@@ -128,5 +143,23 @@
         </div>
         <span class="after">Next into <a href="{{  url_for('theory')  }}">Discourse on AVP</a></span>
     </div>
+     <!--<script>
+        const heading = document.createElement("h1");
+        const headingText = document.createTextNode("Big Head!");
+        heading.appendChild(headingText);
+        document.body.appendChild(heading);
+    </script>-->
+    <script>
+        const table = document.getElementById("table");
+        const tableAttrs = table.attributes; // Node/Element interface
+        for (const attr of tableAttrs) {
+          // HTMLTableElement interface: border attribute
+          if (attr.nodeName.toLowerCase() === "border") {
+            table.border = "1";
+          }
+        }
+        // HTMLTableElement interface: summary attribute
+        table.summary = "note: increased border";
+    </script>
 </body>
 </html>
