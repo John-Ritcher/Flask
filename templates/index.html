@@ -21,7 +21,6 @@
 </head>
 <body>
     <div class="box" role="main">
-        <table id="table">Toma</table>
         <h1 class="line">Introduction</h1>
         <hr>
         <p>First, this is a collection of information of the AVP Franchise, in this website I'll explain the theories and stories of AVP
@@ -141,7 +140,28 @@
             </p>
 
         </div>
-        <span class="after">Next into <a href="{{  url_for('theory')  }}">Discourse on AVP</a></span>
+        <!--<div>
+            <textarea class="story"></textarea>
+            <button id="set-text" type="button">Set text content</button>
+            <button id="clear-text" type="button">Clear text content</button>
+        </div>-->
+        <div class="container">
+            <div class="parent">parent</div>
+            <button id="add-child" type="button">Add a Child</button>
+            <button id="remove-child" type="button">Remove a child</button>
+        </div>
+        <!--<span class="after">Next into <a href="{{  url_for('theory')  }}">Discourse on AVP</a></span>-->
+        <table id="t-dad">
+            <tbody>
+                <tr id="tbl1">
+                    <td id="c1">one</td>
+                </tr>
+                <tr>
+                    <td id="c2">two</td>
+                </tr>
+            </tbody>
+        </table>
+        <script src="../static/progam.js"></script>
     </div>
      <!--<script>
         const heading = document.createElement("h1");
@@ -149,17 +169,5 @@
         heading.appendChild(headingText);
         document.body.appendChild(heading);
     </script>-->
-    <script>
-        const table = document.getElementById("table");
-        const tableAttrs = table.attributes; // Node/Element interface
-        for (const attr of tableAttrs) {
-          // HTMLTableElement interface: border attribute
-          if (attr.nodeName.toLowerCase() === "border") {
-            table.border = "1";
-          }
-        }
-        // HTMLTableElement interface: summary attribute
-        table.summary = "note: increased border";
-    </script>
 </body>
 </html>

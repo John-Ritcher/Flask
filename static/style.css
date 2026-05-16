@@ -92,10 +92,44 @@ p {
     display: table;
 }
 
+button {
+    width: 200px;
+}
+
+.container {
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+}
+
+div.parent {
+    border: 1px solid black;
+    padding: 5px;
+    width: 100px;
+    height: 100px;
+}
+
+div.child {
+    border: 1px solid red;
+    margin: 10px;
+    padding: 5px;
+    width: 80px;
+    height: 60px;
+    box-sizing: border-box;
+}
+
 #content {
     margin: 0 0 20px 0;
     font-size: 95%;
     box-sizing: border-box;
+}
+
+#t-dad {
+    border: 1px solid red;
+}
+
+#c1 {
+    background: pink;
 }
 
 #pred {
