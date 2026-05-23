@@ -47,7 +47,7 @@ document.getElementById("t-dad").addEventListener("click", () => {
 
 
 const tabs = document.querySelectorAll(".changeImg li");
-const myImage = document.querySelector('img');
+const myImage = document.querySelector('#CH');
 
 tabs.forEach(tab => {
     tab.addEventListener("click", () => {
@@ -55,16 +55,16 @@ tabs.forEach(tab => {
         console.log("Teste");
         if (tab.textContent === "Masked")
         {
-            if (mySrc !== "images/City_Hunter_Masked.jpeg")
+            if (mySrc !== "../static/imgs/City_Hunter_Masked.jpeg")
             {
-                myImage.setAttribute("src", "images/City_Hunter_Masked.jpeg");
+                myImage.setAttribute("src", "../static/imgs/City_Hunter_Masked.jpeg");
             }
         }
         else if (tab.textContent === "Unmasked")
         {
-            if (mySrc !== "images/City_Hunter_Ummasked.jpeg")
+            if (mySrc !== "../static/imgs/City_Hunter_Unmasked.jpeg")
             {
-                myImage.setAttribute("src", "images/City_Hunter_Ummasked.jpeg");
+                myImage.setAttribute("src", "../static/imgs/City_Hunter_Unmasked.jpeg");
             }
         }
     })
