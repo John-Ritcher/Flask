@@ -10,7 +10,7 @@ clearText.addEventListener('click', () => {
     story.textContent = '';
 })*/
 
-const parent = document.querySelector('.parent');
+/*const parent = document.querySelector('.parent');
 
 const addChild = document.querySelector('#add-child');
 addChild.addEventListener('click', () => {
@@ -43,4 +43,29 @@ elem.addEventListener("click", stopEvent);
 
 document.getElementById("t-dad").addEventListener("click", () => {
     console.log("t-dad clicked");
-});
+});*/
+
+
+const tabs = document.querySelectorAll(".changeImg li");
+const myImage = document.querySelector('img');
+
+tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+        const mySrc = myImage.getAttribute("src");
+        console.log("Teste");
+        if (tab.textContent === "Masked")
+        {
+            if (mySrc !== "images/City_Hunter_Masked.jpeg")
+            {
+                myImage.setAttribute("src", "images/City_Hunter_Masked.jpeg");
+            }
+        }
+        else if (tab.textContent === "Unmasked")
+        {
+            if (mySrc !== "images/City_Hunter_Ummasked.jpeg")
+            {
+                myImage.setAttribute("src", "images/City_Hunter_Ummasked.jpeg");
+            }
+        }
+    })
+})
