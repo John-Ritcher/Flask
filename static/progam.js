@@ -53,11 +53,17 @@ tabs.forEach(tab => {
     tab.addEventListener("click", () => {
         const mySrc = myImage.getAttribute("src");
         console.log("Teste");
+        tabs.forEach( t => t.classList.remove("active"))
+            if (!tab.classList.contains("active"))
+                {
+                    tab.classList.add("active");
+                }
         if (tab.textContent === "Masked")
         {
             if (mySrc !== "../static/imgs/City_Hunter_Masked.jpeg")
             {
                 myImage.setAttribute("src", "../static/imgs/City_Hunter_Masked.jpeg");
+                tab.classList.add("active");
             }
         }
         else if (tab.textContent === "Unmasked")
@@ -65,7 +71,12 @@ tabs.forEach(tab => {
             if (mySrc !== "../static/imgs/City_Hunter_Unmasked.jpeg")
             {
                 myImage.setAttribute("src", "../static/imgs/City_Hunter_Unmasked.jpeg");
+                tab.classList.add("active");
             }
         }
     })
 })
+
+const tables = document.getElementsByTagName("ul");
+const firstTable = tables.item(1); // or tables[1] - returns the second table in the DOM
+console.log(firstTable);
