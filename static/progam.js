@@ -47,12 +47,15 @@ document.getElementById("t-dad").addEventListener("click", () => {
 
 
 const tabs = document.querySelectorAll(".changeImg li");
-const myImage = document.querySelector('#CH');
+const tabs2 = document.querySelectorAll(".changeImg2 li");
+const myImage1 = document.querySelector("#JH");
+const myImage2 = document.querySelector('#CH');
+//const myImage = document.querySelectorAll('img');
+//console.log(myImage);
 
 tabs.forEach(tab => {
     tab.addEventListener("click", () => {
-        const mySrc = myImage.getAttribute("src");
-        console.log("Teste");
+        const mySrc = myImage1.getAttribute("src");
         tabs.forEach( t => t.classList.remove("active"))
             if (!tab.classList.contains("active"))
                 {
@@ -60,17 +63,49 @@ tabs.forEach(tab => {
                 }
         if (tab.textContent === "Masked")
         {
-            if (mySrc !== "../static/imgs/City_Hunter_Masked.jpeg")
+            if (mySrc !== "../static/imgs/Jungle_Predator.jpeg")
             {
-                myImage.setAttribute("src", "../static/imgs/City_Hunter_Masked.jpeg");
+                myImage1.setAttribute("src", "../static/imgs/Jungle_Predator.jpeg");
                 tab.classList.add("active");
             }
         }
         else if (tab.textContent === "Unmasked")
         {
-            if (mySrc !== "../static/imgs/City_Hunter_Unmasked.jpeg")
+            if (mySrc !== "../static/imgs/Jungle_Hunter_Unmasked.jpeg")
             {
-                myImage.setAttribute("src", "../static/imgs/City_Hunter_Unmasked.jpeg");
+                myImage1.setAttribute("src", "../static/imgs/Jungle_Hunter_Unmasked.jpeg");
+                tab.classList.add("active");
+            }
+        }
+    })
+})
+
+tabs2.forEach(tab => {
+    tab.addEventListener("click", () => {
+        /*myImage.forEach(i => {
+            const mySrc = i.getAttribute("src")
+
+        });*/
+        const mySrc2 = myImage2.getAttribute("src")
+        console.log("Teste");
+        tabs2.forEach( t => t.classList.remove("active"))
+            if (!tab.classList.contains("active"))
+                {
+                    tab.classList.add("active");
+                };
+        if (tab.textContent === "Masked")
+        {
+            if (mySrc2 !== "../static/imgs/City_Hunter_Masked.jpeg")
+            {
+                myImage2.setAttribute("src", "../static/imgs/City_Hunter_Masked.jpeg");
+                tab.classList.add("active");
+            }
+        }
+        else if (tab.textContent === "Unmasked")
+        {
+            if (mySrc2 !== "../static/imgs/City_Hunter_Unmasked.jpeg")
+            {
+                myImage2.setAttribute("src", "../static/imgs/City_Hunter_Unmasked.jpeg");
                 tab.classList.add("active");
             }
         }
