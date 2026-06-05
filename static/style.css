@@ -1,3 +1,7 @@
+.contents {
+  //  display: flex;
+}
+
 h3.contents {
     text-align: center;
 }
@@ -108,6 +112,10 @@ p {
     border-right-width: 0px;
     padding: 30px;
     background: white;
+}
+
+.cont_m {
+   // visibility: hidden;
 }
 
 .cont_m li::marker {
@@ -231,6 +239,16 @@ div.child {
 
 #alien {
     color: green;
+}
+
+.showHide {
+    color: blue;
+    font-weight: normal;
+}
+
+.showHide:hover {
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 @media (prefers-color-scheme: dark) {

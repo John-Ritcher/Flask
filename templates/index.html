@@ -21,13 +21,17 @@
 </head>
 <body>
     <div class="box" role="main">
+        <form method="POST">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter Username" required>
+        </form>
         <h1 class="line">Introduction</h1>
         <hr>
         <p>First, this is a collection of information of the AVP Franchise, in this website I'll explain the theories and stories of AVP
         at the best of my abilities, since I was a child I'm a fan of AVP, at first the xenomorph was the one I thought was cooler,
         but now I believe it's the Predator.</p>
         <div id="content" class="mycontent" role="navigation">
-            <h3 class="contents"><strong>Contents</strong></h3>
+            <h3 class="contents"><strong>Contents</strong>[<span class="showHide">Show</span>]</h3>
             <ol class="cont_m">
                 <li><a href="#m-story"><span>1</span>
                     <span>Stories</span></a>
@@ -145,12 +149,12 @@
             <button id="set-text" type="button">Set text content</button>
             <button id="clear-text" type="button">Clear text content</button>
         </div>-->
-        <div class="container">
+        <!--<div class="container">
             <div class="parent">parent</div>
             <button id="add-child" type="button">Add a Child</button>
             <button id="remove-child" type="button">Remove a child</button>
         </div>
-        <!--<span class="after">Next into <a href="{{  url_for('theory')  }}">Discourse on AVP</a></span>-->
+        <span class="after">Next into <a href="{{  url_for('theory')  }}">Discourse on AVP</a></span>
         <table id="t-dad">
             <tbody>
                 <tr id="tbl1">
@@ -160,7 +164,7 @@
                     <td id="c2">two</td>
                 </tr>
             </tbody>
-        </table>
+        </table>-->
          <span class="after">Next into <a href="{{  url_for('theory')  }}">Discourse on AVP</a></span>
         <script src="../static/progam.js"></script>
     </div>

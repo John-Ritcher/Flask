@@ -46,6 +46,27 @@ document.getElementById("t-dad").addEventListener("click", () => {
 });*/
 
 
+const button = document.querySelector(".showHide");
+const contents = document.querySelector(".cont_m");
+
+const backup = contents.innerHTML;
+
+if (button)
+{
+    button.addEventListener("click", () => {
+    if (button.textContent === "Show") {
+        button.textContent = "Hide";
+  //      contents.textContent = ""; Ruim comparado com style.display = "none"
+         contents.style.display = "none";
+    }
+    else if (button.textContent === "Hide") {
+        button.textContent = "Show";
+ //       contents.innerHTML = backup;  Solução que eu pensei mas que não consegui chegar, tiveram que me mostrar
+        contents.style.display = "table"; //esse é superior, não precisa remover o texto
+    }
+})
+}
+
 const tabs = document.querySelectorAll(".changeImg li");
 const tabs2 = document.querySelectorAll(".changeImg2 li");
 const myImage1 = document.querySelector("#JH");
