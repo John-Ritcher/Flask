@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, Response, current_app, g
+from flask import Flask, render_template, request, Response, current_app, g, flash
 import sqlite3
 from faker import Faker
 import pandas as pd
@@ -10,22 +10,31 @@ app.config['SECRET_KEY'] = 'hshshsh ehehhe'
 #Initialize Faker
 fake = Faker(['en_US'])
 
-def insert_user(insert_query):
+def insert_user(user, password):
     with sqlite3.connect('mydatabase.db') as connection:
         #create a cursor object
         cursor = connection.cursor()
+        user_data = (user, password)
         create_table_query = '''
         CREATE TABLE IF NOT EXISTS Users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            password TEXT NOT NULL,
+            name TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL
         );'''
-        select_query = "SELECT * FROM Users"
 
         # Execute the SQL command
-      #  cursor.execute(create_table_query)
+        cursor.execute(create_table_query)
       #  cursor.execute(insert_query, student_data)
-        cursor.execute(select_query)
+        user_exists = cursor.execute("SELECT * FROM Users WHERE name = ?", (user,)).fetchall()
+        if user_exists:
+            print("Error, try a different name")
+            app.logger.error('User {} already exists'.format(user))
+        else:
+            cursor.execute("""
+            INSERT INTO Users (name, password) 
+            VALUES (?, ?)
+            """, user_data)
+            app.logger.info('User {} was successfully added'.format(user))
         # Commit the changes
         connection.commit()
         print('connected to database successfully')
@@ -35,7 +44,8 @@ def root():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        return f"hello {username}, your password is {password}"
+        insert_user(username, password)
+        return "We think we can add you in our database"
     return render_template('index.html')
 
 @app.route('/theories')

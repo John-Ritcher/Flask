@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <title>AVP Center of Information</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link href="../static/style.css" rel="stylesheet">
     <link rel="icon" href="../tudo_que_aprendi/static/images/MASKA0.png" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,16 +22,52 @@
 </head>
 <body>
     <div class="box" role="main">
-        <form method="POST">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" placeholder="Enter Username" required>
-            <br>
-            <br>
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Enter Password" required>
-            <br>
-            <button type="submit">Register</button>
-        </form>
+        <!--<nav class="crumbs">
+            <ol>
+                <li class="crumb"><a href="#">Extended Universe</a></li>
+                <li class="crumb"><a href="#">My deeper understanding of the AVP Universe</a></li>
+                <li><a href="{{  url_for('theory')  }}">Discourse on AVP</a></li>
+            </ol>
+            <button popovertarget="my-dialog">Show the dialog</button>
+            <dialog id="my-dialog" popover>
+                <form method="POST">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter Username" required>
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter Password" required>
+                    <br>
+                    <button type="submit">Register</button>
+                </form>
+            </dialog>
+        </nav>-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" id="login" href="/login">Login</a>
+                    <a class="nav-item nav-link" id="signUp" href="/logout">Sign up</a>
+                    <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+                    <a class="nav-item nav-link" id="home" href="/">Home</a>
+                    <button popovertarget="my-dialog">Show the dialog</button>
+                    <dialog id="my-dialog" popover>
+                        <form method="POST">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" placeholder="Enter Username" required>
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" placeholder="Enter Password" required>
+                            <br>
+                            <button type="submit">Register</button>
+                        </form>
+                    </dialog>
+                </div>
+            </div>
+        </nav>
         <h1 class="line">Introduction</h1>
         <hr>
         <p>First, this is a collection of information of the AVP Franchise, in this website I'll explain the theories and stories of AVP
@@ -171,7 +208,7 @@
                 </tr>
             </tbody>
         </table>-->
-         <span class="after">Next into <a href="{{  url_for('theory')  }}">Discourse on AVP</a></span>
+        <span class="after">Next into <a href="{{  url_for('theory')  }}">Discourse on AVP</a></span>
         <script src="../static/progam.js"></script>
     </div>
      <!--<script>
