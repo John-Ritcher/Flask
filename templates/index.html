@@ -54,13 +54,28 @@
                     <a class="nav-item nav-link" id="signUp" href="/logout">Sign up</a>
                     <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
                     <a class="nav-item nav-link" id="home" href="/">Home</a>
-                    <button popovertarget="my-dialog">Show the dialog</button>
+                    <button popovertarget="my-dialog">Sign up</button>
                     <dialog id="my-dialog" popover>
                         <form method="POST">
+                            <h4>Sign up by providing a unique username</h4>
                             <label for="username">Username</label>
                             <input type="text" id="username" name="username" placeholder="Enter Username" required>
+                            <br>
                             <label for="password">Password</label>
                             <input type="password" id="password" name="password" placeholder="Enter Password" required>
+                            <br>
+                            <button type="submit">Register</button>
+                        </form>
+                    </dialog>
+                    <button popovertarget="my-dialog2">Sign in</button>
+                    <dialog id="my-dialog2" popover>
+                        <form method="POST">
+                            <h4>Sign in</h4>
+                            <label for="username1">Username</label>
+                            <input type="text" id="username1" name="username" placeholder="Enter Username" required>
+                            <br>
+                            <label for="password1">Password</label>
+                            <input type="password" id="password1" name="password" placeholder="Enter Password" required>
                             <br>
                             <button type="submit">Register</button>
                         </form>
@@ -68,6 +83,14 @@
                 </div>
             </div>
         </nav>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <h3>Result:</h3>
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         <h1 class="line">Introduction</h1>
         <hr>
         <p>First, this is a collection of information of the AVP Franchise, in this website I'll explain the theories and stories of AVP
