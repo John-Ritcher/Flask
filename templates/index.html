@@ -50,13 +50,14 @@
             </button>
             <div class="collapse navbar-collapse" id="navbar">
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link" id="login" href="/login">Login</a>
-                    <a class="nav-item nav-link" id="signUp" href="/logout">Sign up</a>
-                    <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+                    <!--<a class="nav-item nav-link" id="login" href="/login">Login</a>
+                    <a class="nav-item nav-link" id="" href="/logout">Sign up</a>
+                    <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>-->
                     <a class="nav-item nav-link" id="home" href="/">Home</a>
-                    <button popovertarget="my-dialog">Sign up</button>
-                    <dialog id="my-dialog" popover>
+                    <button class="nav-item nav-link" id="signUp" popovertarget="signup-dialog">Sign up</button>
+                    <dialog id="signup-dialog" popover>
                         <form method="POST">
+                            <input type="hidden" name="action" value="signup">
                             <h4>Sign up by providing a unique username</h4>
                             <label for="username">Username</label>
                             <input type="text" id="username" name="username" placeholder="Enter Username" required>
@@ -67,9 +68,10 @@
                             <button type="submit">Register</button>
                         </form>
                     </dialog>
-                    <button popovertarget="my-dialog2">Sign in</button>
-                    <dialog id="my-dialog2" popover>
+                    <button class="nav-item nav-link" id="login" popovertarget="login-dialog">Sign in</button>
+                    <dialog id="login-dialog" popover>
                         <form method="POST">
+                            <input type="hidden" name="action" value="login">
                             <h4>Sign in</h4>
                             <label for="username1">Username</label>
                             <input type="text" id="username1" name="username" placeholder="Enter Username" required>
@@ -77,8 +79,17 @@
                             <label for="password1">Password</label>
                             <input type="password" id="password1" name="password" placeholder="Enter Password" required>
                             <br>
-                            <button type="submit">Register</button>
+                            <button type="submit">Login</button>
                         </form>
+                    </dialog>
+                    <button class="nav-item nav-link" id="logout" popovertarget="logout-dialog">Logout</button>
+                    <dialog id="logout-dialog" popover>
+                        <form method="POST">
+                            <p>Do you want to log out?</p>
+                            <input type="hidden" name="action" value="logout">
+                            <button type="submit">Logout</button>
+                        </form>
+                        <button popovertarget="logout-dialog" popovertargetaction="Hide">Cancel</button>
                     </dialog>
                 </div>
             </div>

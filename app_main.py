@@ -1,10 +1,10 @@
-from flask import Flask, render_template, request, Response, current_app, g, flash, session
+from flask import Flask, redirect, render_template, request, Response, current_app, g, flash, session, url_for
 import sqlite3
 from faker import Faker
 import pandas as pd
 from datetime import datetime
 import click
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'hshshsh ehehhe'
@@ -22,6 +22,7 @@ def create_table():
         );
         """)
 
+# @app.route('/signup', methods=['POST'])
 def insert_user(user, password):
     with sqlite3.connect('mydatabase.db') as connection:
         #create a cursor object
@@ -40,28 +41,70 @@ def insert_user(user, password):
             INSERT INTO Users (name, password) 
             VALUES (?, ?)
             """, user_data)
-            session.clear()
-            session['user_id'] = user['id']
             #current_app.logger.info('User {} was successfully added'.format(user))
             flash('User created', 'success')
         # Commit the changes
         connection.commit()
         print('connected to database successfully')
 
-def logout_user():
-    session.clear()
+def login_user(user, password):
+    with sqlite3.connect('mydatabase.db') as connection:
+        cursor = connection.cursor()
+        error = None
+
+        user_login = cursor.execute("SELECT * FROM Users WHERE name = ?", (user,)).fetchone()
+        if user_login is None:
+            error = "Invalid username"
+        elif not check_password_hash(user_login[2], password):
+            error = 'Incorrect password'
+
+        if error is None:
+            session.clear()
+            session['user_id'] = user_login[0]
+            print(session['user_id'])
+            flash('Logged in', 'success')
+        else:
+            flash(error)
+
+def load_logged_user():
+    with sqlite3.connect('mydatabase.db') as connection:
+        cursor = connection.cursor()
+        user_id = session.get('user_id')
+        if user_id is None:
+            print("Logged user not logged in")
+            #flash('Logged user not logged in', 'error')
+        else:
+            cursor.execute("SELECT * FROM Users WHERE id = ?", (user_id,)).fetchone()
+            print("logged user")
+            #flash("Logged user", "success")
 @app.route('/', methods=['GET', 'POST'])
 def root():
+    load_logged_user()
     if request.method == 'POST':
-        username = request.form.get('username', '').strip()
-        password = request.form.get('password', '').strip()
-        if len(username) < 2:
-            flash('Username must be at least 2 characters', 'error')
-        elif len(password) < 8:
-            flash('Password must be at least 8 characters', 'error')
-        else:
-            password_hash = generate_password_hash(password)
-            insert_user(username, password_hash)
+        action = request.form['action']
+        if action == 'signup':
+            username = request.form.get('username', '').strip()
+            password = request.form.get('password', '').strip()
+            if len(username) < 2:
+                flash('Username must be at least 2 characters', 'error')
+            elif len(password) < 8:
+                flash('Password must be at least 8 characters', 'error')
+            else:
+                password_hash = generate_password_hash(password)
+                insert_user(username, password_hash)
+        elif action == 'login':
+            username = request.form.get('username', '').strip()
+            password = request.form.get('password', '').strip()
+            if len(username) < 2:
+                flash('Username must be at least 2 characters', 'error')
+            elif len(password) < 8:
+                flash('Password must be at least 8 characters', 'error')
+            else:
+                login_user(username, password)
+        elif action == 'logout':
+            session.clear()
+            flash('Logged out', 'success')
+    print(dict(session))
     return render_template('index.html')
 
 @app.route('/theories')

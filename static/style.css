@@ -211,9 +211,6 @@ p {
     clear: left;
 }
 
-button {
-    width: 200px;
-}
 
 .container {
     display: flex;
@@ -286,4 +283,10 @@ div.child {
         border: #0e1b6d solid 1px;
         color: lightgrey;
     }
+}
+
+#signUp, #login, #logout {
+    background: transparent;
+    display: inline-block;
+    border: none;
 }
