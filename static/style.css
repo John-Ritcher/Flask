@@ -285,6 +285,21 @@ div.child {
     }
 }
 
+.outline {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.outline2 {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    border: 1px solid;
+    height: 110px;
+    width: 200px;
+}
+
 #signUp, #login, #logout {
     background: transparent;
     display: inline-block;

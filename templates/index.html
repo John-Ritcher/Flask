@@ -242,7 +242,31 @@
                 </tr>
             </tbody>
         </table>-->
-        <span class="after">Next into <a href="{{  url_for('theory')  }}">Discourse on AVP</a></span>
+        <form method="POST">
+            <input type="hidden" name="action" value="comment">
+            <label for="comment">Comment:</label>
+            <br>
+            <textarea name="comment"
+                      required rows="3"
+                      cols="33"
+                      id="comment"
+            ></textarea>
+            <button type="submit">Submit</button>
+        </form>
+        {% for comment in comments %}
+         <div style="border: 1px solid white;">
+            <article class="outline">
+                <div class="outline2">
+                    <aside><span style="color: red">{{ comment['name'] }}</span> <small style="">said</small></aside>
+                </div>
+                <div>
+                    <p>{{ comment['content'] }}</p>
+                    <br>
+                    <p>{{ comment['time'] }}</p>
+                </div>
+            </article>
+         </div>
+        {% endfor %}
         <script src="../static/progam.js"></script>
     </div>
      <!--<script>

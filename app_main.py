@@ -1,8 +1,9 @@
 from flask import Flask, redirect, render_template, request, Response, current_app, g, flash, session, url_for
 import sqlite3
 from faker import Faker
+from zoneinfo import ZoneInfo
 import pandas as pd
-from datetime import datetime
+import datetime as dt
 import click
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -19,6 +20,14 @@ def create_table():
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT UNIQUE NOT NULL,
         password TEXT NOT NULL
+        );
+        """)
+        cursor.execute("""
+        CREATE TABLE IF NOT EXISTS Comments (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        content TEXT NOT NULL,
+        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         );
         """)
 
@@ -41,6 +50,8 @@ def insert_user(user, password):
             INSERT INTO Users (name, password) 
             VALUES (?, ?)
             """, user_data)
+            user_login = cursor.execute("SELECT * FROM Users WHERE name = ?", (user,)).fetchone()
+            session['user_id'] = user_login[0]
             #current_app.logger.info('User {} was successfully added'.format(user))
             flash('User created', 'success')
         # Commit the changes
@@ -71,15 +82,86 @@ def load_logged_user():
         cursor = connection.cursor()
         user_id = session.get('user_id')
         if user_id is None:
-            print("Logged user not logged in")
-            #flash('Logged user not logged in', 'error')
+            #print("Logged user not logged in")
+            flash('Logged user not logged in', 'error')
         else:
             cursor.execute("SELECT * FROM Users WHERE id = ?", (user_id,)).fetchone()
-            print("logged user")
-            #flash("Logged user", "success")
+            #print("logged user")
+            flash("Logged user", "success")
+
+def insert_comment(comment):
+    with sqlite3.connect('mydatabase.db') as connection:
+        cursor = connection.cursor()
+        user_id = session.get('user_id')
+        user_comment = (user_id, comment)
+        if user_id is None:
+            print("Logged user not logged in (from insert_comment)")
+        else:
+            cursor.execute("""
+            INSERT INTO Comments (user_id, content)
+            VALUES (?, ?)
+            """, user_comment)
+
+def get_comments():
+    with sqlite3.connect('mydatabase.db') as connection:
+        cursor = connection.cursor()
+
+        comments = cursor.execute("""
+        SELECT 
+            Users.name,
+            Comments.content,
+            Comments.created_at
+        FROM Comments
+        JOIN Users
+        ON  Users.id = Comments.user_id
+        ORDER BY Comments.created_at DESC
+        """)
+
+        return format_time(comments)
+
+def format_time(comments):
+    comments = comments.fetchall()
+    formatted_comments = []
+
+    for comment in comments:
+        data = dt.datetime.fromisoformat(comment[2])
+        now = dt.datetime.now()
+
+        delta = now - data
+        years = delta.days // 365
+        months = delta.days // 30
+        hours = delta.seconds // 3600
+        minutes = (delta.seconds % 3600) // 60
+        if delta.days > 365:
+            if delta.days > 730:
+                time = f"{years} years ago"
+            else:
+                time = f"{years} year ago"
+        elif months > 0:
+            if months > 1:
+                time = f"{months} months ago"
+            else:
+                time = f"{months} month ago"
+        elif delta.days > 0:
+            if delta.days > 1:
+                time = f"{delta.days} days ago"
+            else:
+                time = f"{delta.days} day ago"
+        elif hours > 0:
+            time = f"{hours} hours ago"
+        elif minutes > 0:
+            time = f"{minutes} minutes ago"
+        elif delta.seconds > 0 > minutes:
+            time = f"{delta.seconds} seconds ago"
+
+        formatted_comments.append({'name': comment[0], 'content': comment[1], 'time': time})
+
+    return formatted_comments
+
 @app.route('/', methods=['GET', 'POST'])
 def root():
     load_logged_user()
+    comments = get_comments()
     if request.method == 'POST':
         action = request.form['action']
         if action == 'signup':
@@ -104,8 +186,11 @@ def root():
         elif action == 'logout':
             session.clear()
             flash('Logged out', 'success')
+        elif action == 'comment':
+            comment = request.form.get('comment', '').strip()
+            insert_comment(comment)
     print(dict(session))
-    return render_template('index.html')
+    return render_template('index.html', comments=comments)
 
 @app.route('/theories')
 def theory():
