@@ -77,6 +77,7 @@ const myImage2 = document.querySelector('#CH');
 tabs.forEach(tab => {
     tab.addEventListener("click", () => {
         const mySrc = myImage1.getAttribute("src");
+        const mySrc2 = myImage2.getAttribute("src")
         tabs.forEach( t => t.classList.remove("active"))
             if (!tab.classList.contains("active"))
                 {
@@ -101,12 +102,12 @@ tabs.forEach(tab => {
     })
 })
 
-tabs2.forEach(tab => {
+/*tabs2.forEach(tab => {
     tab.addEventListener("click", () => {
         /*myImage.forEach(i => {
             const mySrc = i.getAttribute("src")
 
-        });*/
+        });
         const mySrc2 = myImage2.getAttribute("src")
         console.log("Teste");
         tabs2.forEach( t => t.classList.remove("active"))
@@ -131,7 +132,7 @@ tabs2.forEach(tab => {
             }
         }
     })
-})
+})*/
 
 const tables = document.getElementsByTagName("ul");
 const firstTable = tables.item(1); // or tables[1] - returns the second table in the DOM
