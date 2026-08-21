@@ -91,17 +91,18 @@
                         </form>
                         <button popovertarget="logout-dialog" popovertargetaction="Hide">Cancel</button>
                     </dialog>
+                    <div class="nav-item nav-link">
+                        {% with messages = get_flashed_messages() %}
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <span>{{ message }}</span>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                    </div>
                 </div>
             </div>
         </nav>
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <h3>Result:</h3>
-                {% for message in messages %}
-                    {{ message }}
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
         <h1 class="line">Introduction</h1>
         <hr>
         <p>First, this is a collection of information of the AVP Franchise, in this website I'll explain the theories and stories of AVP
@@ -254,18 +255,18 @@
             <button type="submit">Submit</button>
         </form>
         {% for comment in comments %}
-         <div style="border: 1px solid white;">
-            <article class="outline">
-                <div class="outline2">
-                    <aside><span style="color: red">{{ comment['name'] }}</span> <small style="">said</small></aside>
-                </div>
-                <div>
-                    <p>{{ comment['content'] }}</p>
-                    <br>
-                    <p>{{ comment['time'] }}</p>
+            <article class="comment">
+                <img class="comment_avatar" src="../static/imgs/default_pfp.jpg" alt="Avatar">
+                <div class="comment-body">
+                    <div class="comment-name">
+                        <span style="color: red">{{ comment['name'] }}</span>
+                        <span class="comment-time">{{ comment['time'] }}</span>
+                    </div>
+                    <div class="comment-content">
+                        <span>{{ comment['content'] }}</span>
+                    </div>
                 </div>
             </article>
-         </div>
         {% endfor %}
         <script src="../static/progam.js"></script>
     </div>

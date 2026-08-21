@@ -19,7 +19,8 @@ def create_table():
         CREATE TABLE IF NOT EXISTS Users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT UNIQUE NOT NULL,
-        password TEXT NOT NULL
+        password TEXT NOT NULL,
+        avatar TEXT DEFAULT 'default_pfp.jpeg'
         );
         """)
         cursor.execute("""
@@ -109,6 +110,7 @@ def get_comments():
         comments = cursor.execute("""
         SELECT 
             Users.name,
+            Users.avatar,
             Comments.content,
             Comments.created_at
         FROM Comments
@@ -124,7 +126,7 @@ def format_time(comments):
     formatted_comments = []
 
     for comment in comments:
-        data = dt.datetime.fromisoformat(comment[2])
+        data = dt.datetime.fromisoformat(comment[3])
         now = dt.datetime.now()
 
         delta = now - data
@@ -154,7 +156,7 @@ def format_time(comments):
         elif delta.seconds > 0 > minutes:
             time = f"{delta.seconds} seconds ago"
 
-        formatted_comments.append({'name': comment[0], 'content': comment[1], 'time': time})
+        formatted_comments.append({'name': comment[0], 'content': comment[2], 'time': time})
 
     return formatted_comments
 
