@@ -51,6 +51,25 @@ const contents = document.querySelector(".cont_m");
 
 const backup = contents.innerHTML;
 
+async function sendTimezone() {
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    //const data = {canvas_data: JSON.stringify(timezone)};
+
+    const response = await fetch('/set-timezone', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            timezone: timezone
+        })
+    });
+    //console.log(timezone)
+    console.log(response)
+}
+
+sendTimezone()
+
 if (button)
 {
     button.addEventListener("click", () => {
@@ -88,4 +107,4 @@ tabs.forEach(tab => {
 
 const tables = document.getElementsByTagName("ul");
 const firstTable = tables.item(1); // or tables[1] - returns the second table in the DOM
-console.log(firstTable);
+//console.log(firstTable);

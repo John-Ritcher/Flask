@@ -1,3 +1,5 @@
+from datetime import UTC
+
 from flask import Flask, redirect, render_template, request, Response, current_app, g, flash, session, url_for
 import sqlite3
 from faker import Faker
@@ -84,11 +86,11 @@ def load_logged_user():
         user_id = session.get('user_id')
         if user_id is None:
             #print("Logged user not logged in")
-            flash('Logged user not logged in', 'error')
+            flash('not logged in', 'error')
         else:
             cursor.execute("SELECT * FROM Users WHERE id = ?", (user_id,)).fetchone()
             #print("logged user")
-            flash("Logged user", "success")
+            flash("Logged", "success")
 
 def insert_comment(comment):
     with sqlite3.connect('mydatabase.db') as connection:
@@ -121,12 +123,27 @@ def get_comments():
 
         return format_time(comments)
 
+@app.route('/set-timezone', methods=['POST'])
+def set_timezone():
+    data = request.get_json()
+    session['timezone'] = data['timezone']
+
+    return 'ok' and show_timezone()
+
+def show_timezone():
+    timezone = session.get('timezone')
+
+    return 'ok' if timezone else 'error'
+
 def format_time(comments):
     comments = comments.fetchall()
     formatted_comments = []
 
     for comment in comments:
         data = dt.datetime.fromisoformat(comment[3])
+        utc_time = dt.datetime.fromisoformat(comment[3]).replace(tzinfo=UTC)
+        local_time = utc_time.astimezone(ZoneInfo('America/Sao_Paulo'))
+        print(local_time)
         now = dt.datetime.now()
 
         delta = now - data

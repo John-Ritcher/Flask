@@ -91,16 +91,16 @@
                         </form>
                         <button popovertarget="logout-dialog" popovertargetaction="Hide">Cancel</button>
                     </dialog>
-                    <div class="nav-item nav-link">
-                        {% with messages = get_flashed_messages() %}
-                            {% if messages %}
-                                {% for message in messages %}
-                                    <span>{{ message }}</span>
-                                {% endfor %}
-                            {% endif %}
-                        {% endwith %}
-                    </div>
                 </div>
+            </div>
+            <div class="log">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <span style="font-weight: bold">You're {{ message }}</span>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
             </div>
         </nav>
         <h1 class="line">Introduction</h1>
