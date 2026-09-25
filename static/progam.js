@@ -64,8 +64,6 @@ async function sendTimezone() {
             timezone: timezone
         })
     });
-    //console.log(timezone)
-    console.log(response)
 }
 
 sendTimezone()

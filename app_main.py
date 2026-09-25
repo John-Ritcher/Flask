@@ -1,3 +1,4 @@
+import os
 from datetime import UTC
 
 from flask import Flask, redirect, render_template, request, Response, current_app, g, flash, session, url_for
@@ -8,9 +9,14 @@ import pandas as pd
 import datetime as dt
 import click
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
+
+UPLOAD_FOLDER = './static/uploads'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'hshshsh ehehhe'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 #Initialize Faker
 fake = Faker(['en_US'])
 
@@ -22,7 +28,7 @@ def create_table():
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT UNIQUE NOT NULL,
         password TEXT NOT NULL,
-        avatar TEXT DEFAULT 'default_pfp.jpeg'
+        avatar TEXT NOT NULL DEFAULT 'default_pfp.jpg'
         );
         """)
         cursor.execute("""
@@ -56,7 +62,7 @@ def insert_user(user, password):
             user_login = cursor.execute("SELECT * FROM Users WHERE name = ?", (user,)).fetchone()
             session['user_id'] = user_login[0]
             #current_app.logger.info('User {} was successfully added'.format(user))
-            flash('User created', 'success')
+            #flash('User created', 'success')
         # Commit the changes
         connection.commit()
         print('connected to database successfully')
@@ -86,7 +92,7 @@ def load_logged_user():
         user_id = session.get('user_id')
         if user_id is None:
             #print("Logged user not logged in")
-            flash('not logged in', 'error')
+            flash('Not logged in', 'error')
         else:
             cursor.execute("SELECT * FROM Users WHERE id = ?", (user_id,)).fetchone()
             #print("logged user")
@@ -128,7 +134,7 @@ def set_timezone():
     data = request.get_json()
     session['timezone'] = data['timezone']
 
-    return 'ok' and show_timezone()
+    return show_timezone()
 
 def show_timezone():
     timezone = session.get('timezone')
@@ -140,18 +146,20 @@ def format_time(comments):
     formatted_comments = []
 
     for comment in comments:
-        data = dt.datetime.fromisoformat(comment[3])
         utc_time = dt.datetime.fromisoformat(comment[3]).replace(tzinfo=UTC)
-        local_time = utc_time.astimezone(ZoneInfo('America/Sao_Paulo'))
-        print(local_time)
-        now = dt.datetime.now()
+        local_time = utc_time.astimezone(ZoneInfo(session['timezone']))
 
-        delta = now - data
+        now = dt.datetime.now(ZoneInfo(session['timezone']))
+
+        delta = now - local_time
         years = delta.days // 365
         months = delta.days // 30
         hours = delta.seconds // 3600
         minutes = (delta.seconds % 3600) // 60
-        if delta.days > 365:
+        time = f"{delta.seconds % 60} seconds ago"
+        if delta.seconds > 0 and minutes == 0:
+            time = f"{delta.seconds} seconds ago"
+        elif delta.days > 365:
             if delta.days > 730:
                 time = f"{years} years ago"
             else:
@@ -170,19 +178,32 @@ def format_time(comments):
             time = f"{hours} hours ago"
         elif minutes > 0:
             time = f"{minutes} minutes ago"
-        elif delta.seconds > 0 > minutes:
-            time = f"{delta.seconds} seconds ago"
 
-        formatted_comments.append({'name': comment[0], 'content': comment[2], 'time': time})
+        formatted_comments.append({'name': comment[0], 'content': comment[2], 'time': time, 'avatar': comment[1]})
 
     return formatted_comments
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def update_avatar(filename):
+    with sqlite3.connect('mydatabase.db') as connection:
+        cursor = connection.cursor()
+        user_id = session.get('user_id')
+        user_avatar = (filename, user_id)
+
+        cursor.execute("""
+        UPDATE Users
+        SET avatar = ?
+        WHERE id = ?
+        """, user_avatar)
 
 @app.route('/', methods=['GET', 'POST'])
 def root():
     load_logged_user()
     comments = get_comments()
     if request.method == 'POST':
-        action = request.form['action']
+        action = request.form.get('action')
         if action == 'signup':
             username = request.form.get('username', '').strip()
             password = request.form.get('password', '').strip()
@@ -208,6 +229,23 @@ def root():
         elif action == 'comment':
             comment = request.form.get('comment', '').strip()
             insert_comment(comment)
+            return redirect('/', code=302)
+        elif action == 'uploadAvatar':
+            if session.get('user_id'):
+                if 'file' not in request.files:
+                    flash('No file part', 'error')
+                    return redirect('/')
+                file = request.files['file']
+                if file.filename == '':
+                    flash('No selected file', 'error')
+                    return redirect('/')
+                if file and allowed_file(file.filename):
+                    filename = secure_filename(file.filename)
+                    print(filename)
+                    file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+                    update_avatar(filename)
+                    return redirect('/', code=302)
+            # request.files['avatar'] = request.files['avatar'].read()
     print(dict(session))
     return render_template('index.html', comments=comments)
 

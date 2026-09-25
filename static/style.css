@@ -300,7 +300,7 @@ div.child {
     width: 200px;
 }*/
 
-#signUp, #login, #logout {
+#signUp, #login, #logout, #uploadAvatar {
     background: transparent;
     display: inline-block;
     border: none;
@@ -346,4 +346,15 @@ div.child {
 .comment-time {
     font-weight: normal;
     padding: 10px;
+}
+
+.success {
+    font-weight: bold;
+    color: blue;
+}
+
+.error {
+    font-weight: bold;
+    color: red;
+    display: flex;
 }

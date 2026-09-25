@@ -60,7 +60,7 @@
                             <input type="hidden" name="action" value="signup">
                             <h4>Sign up by providing a unique username</h4>
                             <label for="username">Username</label>
-                            <input type="text" id="username" name="username" placeholder="Enter Username" required>
+                            <input type="text" id="username" name="username" placeholder="Enter Username" required style="">
                             <br>
                             <label for="password">Password</label>
                             <input type="password" id="password" name="password" placeholder="Enter Password" required>
@@ -91,14 +91,31 @@
                         </form>
                         <button popovertarget="logout-dialog" popovertargetaction="Hide">Cancel</button>
                     </dialog>
+                    {% if session.get('user_id') %}
+                        <button class="nav-item nav-link" id="uploadAvatar" popovertarget="uploadAvatar-dialog">Upload Avatar</button>
+                        <dialog id="uploadAvatar-dialog" popover>
+                            <form method="POST" enctype="multipart/form-data">
+                                <p>Upload profile picture?</p>
+                                <input type="hidden" name="action" value="uploadAvatar">
+                                <input type="file" accept="image/png, image/jpeg, image/jpg, image/gif, image/webp" name="file" alt="Upload Image">
+                                <button type="submit" value="Upload">Upload</button>
+                            </form>
+                        </dialog>
+                    {% endif %}
                 </div>
             </div>
             <div class="log">
-                {% with messages = get_flashed_messages() %}
+                {% with messages = get_flashed_messages(with_categories=True, category_filter=('error')) %}
                     {% if messages %}
-                        {% for message in messages %}
-                            <span style="font-weight: bold">You're {{ message }}</span>
+                        {% for category, message in messages %}
+                            <span class="{{ category }}">{{ message }}</span>
                         {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                {% with messages = get_flashed_messages(with_categories=True, category_filter=('success')) %}
+                    {% if messages %}
+                        {% set category, message = messages[-1] %}
+                            <span class="{{ category }}">You're {{ message }}</span>
                     {% endif %}
                 {% endwith %}
             </div>
@@ -256,7 +273,7 @@
         </form>
         {% for comment in comments %}
             <article class="comment">
-                <img class="comment_avatar" src="../static/imgs/default_pfp.jpg" alt="Avatar">
+                <img class="comment_avatar" src="{{ url_for('static', filename='uploads/' + comment['avatar']) }}" alt="Avatar">
                 <div class="comment-body">
                     <div class="comment-name">
                         <span style="color: red">{{ comment['name'] }}</span>
